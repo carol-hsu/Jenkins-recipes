@@ -6,7 +6,6 @@ execute 'rpm-import' do
 	command 'rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key'
 end
 
-yum_package ['jenkins','java'] do
-	action :install
-end
+yum_package 'java'
 
+yum_package 'jenkins'
