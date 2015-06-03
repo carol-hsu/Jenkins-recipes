@@ -7,5 +7,5 @@ execute 'rpm-import' do
 end
 
 execute 'update and install' do
-	command 'yum -y update && yum -y install java jenkins'
+	command 'yum -y update && yum -y install java-1.7.0-openjdk && yum -y install jenkins'
 end
