@@ -11,7 +11,7 @@ bash 'update and install' do
 	code <<-EOH
 	yum -y update
 	yum -y install java
-	yum -y install jenkins'
+	yum -y install jenkins
 	chkconfig jenkins --level 35 on
 	EOH
 	notifies :start, 'service[Jenkins]'
