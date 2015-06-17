@@ -1,15 +1,3 @@
-user 'jenkins' do
-    home '/home/jenkins'
-    shell '/bin/bash'
-    password '$1$1BYPpnSk$UiWmVO9/J3lKf290/Oec4.'
-    action :create
-end
-
-directory '/home/jenkins' do
-    owner 'jenkins'
-    group 'jenkins'
-end
-
 remote_file '/etc/yum.repos.d/jenkins.repo' do
 	source 'http://pkg.jenkins-ci.org/redhat/jenkins.repo'
 end
@@ -35,8 +23,3 @@ service 'Jenkins' do
 	action :nothing
 end
 
-execute 'create-sshkey' do
-    user 'jenkins'
-    cwd '/home/jenkins'
-    command "mkdir .ssh && ssh-keygen -f .ssh/id_rsa -t rsa -N ''"
-end
