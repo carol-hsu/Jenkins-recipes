@@ -1,8 +1,13 @@
 user 'jenkins' do
 	home '/home/jenkins'
 	shell '/bin/bash'
-	password '$1$jky3gbSD$00k0i/rzdjCD1nqDDfeB7/'
+	password '$1$1BYPpnSk$UiWmVO9/J3lKf290/Oec4.'
 	action :create
+end
+
+directory '/home/jenkins' do
+    owner 'jenkins'
+    group 'jenkins'
 end
 
 bash 'install-ant' do
