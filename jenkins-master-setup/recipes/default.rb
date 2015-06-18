@@ -23,3 +23,16 @@ service 'Jenkins' do
 	action :nothing
 end
 
+bash 'install github plugin' do
+	user 'jenkins'
+	cwd	 '/var/lib/jenkins/plugins'
+	code <<-EOH
+	wget http://updates.jenkins-ci.org/download/plugins/github-api/1.68/github-api.hpi
+	wget http://updates.jenkins-ci.org/download/plugins/git-client/1.17.1/git-client.hpi
+	wget http://updates.jenkins-ci.org/download/plugins/git/2.3.5/git.hpi
+	wget http://updates.jenkins-ci.org/download/plugins/github/1.11.3/github.hpi
+	EOH
+	notifies :restart, 'service[Jenkins]'
+end
+
+
