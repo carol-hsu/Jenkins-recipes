@@ -1,7 +1,6 @@
 user 'jenkins' do
     home '/home/jenkins'
     shell '/bin/bash'
-    password '$1$RDXR2jjd$vhiK.lztBQ43bjtr0xIjM/'
     action :create
 end
 
