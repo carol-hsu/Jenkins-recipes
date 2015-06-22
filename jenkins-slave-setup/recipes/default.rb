@@ -45,7 +45,9 @@ bash 'install-docker' do
 	yum -y localinstall --nogpgcheck docker-engine-1.7.0-1.el6.x86_64.rpm
 	service docker start
 	usermod -aG docker jenkins
-	echo 'other_args="--insecure-registry dcsrd-docker-registry.trendmicro.com"' > /etc/sysconfig/docker
+	echo "# /etc/sysconfig/docker" > /etc/sysconfig/docker
+	echo 'other_args="--insecure-registry dcsrd-docker-registry.trendmicro.com"' >> /etc/sysconfig/docker
+	service docker restart
 	EOH
 end
 
