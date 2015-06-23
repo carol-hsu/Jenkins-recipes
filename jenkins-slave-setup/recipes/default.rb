@@ -37,18 +37,18 @@ bash 'install-ant' do
 	EOH
 end
 
-##install docker
-#bash 'install-docker' do
-#	user 'root'
-#	code <<-EOH
-#	curl -O -sSL https://get.docker.com/rpm/1.7.0/centos-6/RPMS/x86_64/docker-engine-1.7.0-1.el6.x86_64.rpm
-#	yum -y localinstall --nogpgcheck docker-engine-1.7.0-1.el6.x86_64.rpm
-#	service docker start
-#	usermod -aG docker jenkins
-#	echo "# /etc/sysconfig/docker" > /etc/sysconfig/docker
-#	echo 'other_args="--insecure-registry dcsrd-docker-registry.trendmicro.com"' >> /etc/sysconfig/docker
-#	service docker restart
-#	EOH
-#end
+#install docker
+bash 'install-docker' do
+	user 'root'
+	code <<-EOH
+	curl -O -sSL https://get.docker.com/rpm/1.7.0/centos-6/RPMS/x86_64/docker-engine-1.7.0-1.el6.x86_64.rpm
+	yum -y localinstall --nogpgcheck docker-engine-1.7.0-1.el6.x86_64.rpm
+	service docker start
+	usermod -aG docker jenkins
+	echo "# /etc/sysconfig/docker" > /etc/sysconfig/docker
+	echo 'other_args="--insecure-registry dcsrd-docker-registry.trendmicro.com"' >> /etc/sysconfig/docker
+	service docker restart
+	EOH
+end
 
 Chef::Log.info("***************** Jenkins slave setup finished **************")
