@@ -1,20 +1,25 @@
+
+Chef::Log.info("***test 1***")
 user 'jenkins' do
     home '/home/jenkins'
     shell '/bin/bash'
     action :create
 end
 
+Chef::Log.info("***test 2***")
 directory '/home/jenkins' do
     owner 'jenkins'
     group 'jenkins'
 end
 
+Chef::Log.info("***test 3***")
 directory '/home/jenkins/.ssh' do
-    owner 'jenkins'
-    group 'jenkins'
+	owner 'jenkins'
+	group 'jenkins'
 	mode '0700'
 end
 
+Chef::Log.info("***test 4***")
 #grant user permission to jenkins
 bash 'add-public-key' do
 	user 'root'
@@ -28,6 +33,7 @@ bash 'add-public-key' do
 end
 
 
+Chef::Log.info("***test 5***")
 bash 'install-ant' do
 	user 'root'
 	code <<-EOH
@@ -37,6 +43,8 @@ bash 'install-ant' do
 	EOH
 end
 
+
+Chef::Log.info("***test 6***")
 #install docker
 bash 'install-docker' do
 	user 'root'
@@ -50,12 +58,13 @@ bash 'install-docker' do
 	EOH
 end
 
+Chef::Log.info("***test 7***")
+
 #create dir
 directory '/media/ephemeral0/jenkins' do
-  owner jenkins
-  group jenkins
-  recursive true
+	owner jenkins
+	group jenkins
+	recursive true
 end
-
 
 Chef::Log.info("***************** Jenkins slave setup finished **************")
