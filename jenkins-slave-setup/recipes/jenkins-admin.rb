@@ -3,7 +3,7 @@ file '/home/jenkins/.ssh/authorized_keys' do
     owner 'jenkins'
     group 'jenkins'
     mode '0600'
-    content "#{node[:jenkins_pubkey]}"
+    content "#{node[:jenkins_pubkey]}\n"
     action :create
 end
 
