@@ -20,7 +20,7 @@ file '/home/jenkins/.ssh/authorized_keys' do
 	owner 'jenkins'
     group 'jenkins'
     mode '0600'
-    content "#{slave-pubkey}"
+    content "#{node[:slave-pubkey]}"
     action :create
 end
 
