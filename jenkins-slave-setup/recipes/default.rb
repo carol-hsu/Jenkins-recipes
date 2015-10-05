@@ -15,14 +15,20 @@ directory '/home/jenkins/.ssh' do
 	mode '0700'
 end
 
+#add jenkins public key in user "jenkins"'s authorized file
+file '/home/jenkins/.ssh/authorized_keys' do
+	owner 'jenkins'
+    group 'jenkins'
+    mode '0600'
+    content "#{slave-pubkey}"
+    action :create
+end
+
 #grant user permission to jenkins
 bash 'add-public-key' do
 	user 'root'
 	code <<-EOH
 	cat /home/ec2-user/.ssh/authorized_keys >> /home/jenkins/.ssh/authorized_keys
-	chmod 600 /home/jenkins/.ssh/authorized_keys
-	chown jenkins /home/jenkins/.ssh/authorized_keys
-	chgrp jenkins /home/jenkins/.ssh/authorized_keys
 	echo "jenkins  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoer
 	EOH
 end
