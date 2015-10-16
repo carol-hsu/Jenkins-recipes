@@ -1,0 +1,88 @@
+#!/bin/bash
+#
+# kubernetes	This shell script takes care of starting and stopping kubernetes
+#
+# chkconfig: - 99 99
+# description: kubernetes
+
+### BEGIN INIT INFO
+# Provides: kubernetes
+# Required-Start: $network $local_fs $remote_fs
+# Required-Stop: $network $local_fs $remote_fs
+# Should-Start: $syslog $named flanneld docker
+# Should-Stop: $syslog $named
+# Short-Description: start and stop kubernetes
+# Description: kubernetes
+### END INIT INFO
+
+# Source function library.
+. /etc/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+prog=/usr/local/bin/hyperkube
+lockfile=/var/lock/subsys/`basename $prog`
+hostname=`hostname`
+logfile=/var/log/kubernetes.log
+
+start() {
+	# Start daemon.
+	echo $"Starting kubelet: "
+	daemon $prog kubelet \
+		--api_servers=http://<%= @master_url %>:8080 \
+		--v=2 \
+		--address=0.0.0.0 \
+		--enable_server \
+		--hostname_override=${hostname} \
+		> ${logfile} 2>&1 &
+
+	echo $"Starting proxy: "
+	daemon $prog proxy \
+		--master=http://<%= @master_url %>:8080 \
+		--v=2 \
+		> ${logfile} 2>&1 &
+
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch $lockfile
+	return $RETVAL
+}
+
+stop() {
+	[ "$EUID" != "0" ] && exit 4
+        echo -n $"Shutting down $prog: "
+	killproc $prog
+	RETVAL=$?
+        echo
+	[ $RETVAL -eq 0 ] && rm -f $lockfile
+	return $RETVAL
+}
+
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  status)
+	status $prog
+	;;
+  restart|force-reload)
+	stop
+	start
+	;;
+  try-restart|condrestart)
+	if status $prog > /dev/null; then
+	    stop
+	    start
+	fi
+	;;
+  reload)
+	exit 3
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|status|restart|try-restart|force-reload}"
+	exit 2
+esac
