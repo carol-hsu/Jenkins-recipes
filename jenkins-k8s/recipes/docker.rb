@@ -20,5 +20,5 @@ end
 template "/etc/cron.daily/docker-clean.cron" do
 	mode "0755"
 	owner "root"
-	source "docker-clean.cron.elb"
+	source "docker-clean.cron.erb"
 end
