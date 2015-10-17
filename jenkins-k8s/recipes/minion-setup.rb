@@ -1,4 +1,4 @@
-if my_master_elb = node[:opsworks][:stack]['elb-load-balancers'].select{|elb| elb[:layer_id] == node[:opsworks][:layers]['jenkins-cluster-Kub'][:id] }.first
+if my_master_elb = node[:opsworks][:stack]['elb-load-balancers'].select{|elb| elb[:layer_id] == node[:opsworks][:layers]['jenkins-slave'][:id] }.first
 
     template "/etc/init.d/kubernetes-minion" do
       mode "0755"
