@@ -8,11 +8,11 @@ bash 'wait_flanneld' do
 	cwd '/tmp'
 	code <<-EOH
 	tries=0
-    while [ ! -f /run/flannel/subnet.env -a $tries -lt 10 ] do
-        sleep 1
-		tries=$((tries + 1))
-    done
-	EOH
+	while [ ! -f /run/flannel/subnet.env -a $tries -lt 10 ] do
+	    sleep 1
+	    tries=$((tries + 1))
+	done
+        EOH
 
 	action :nothing
 	notifies :start, 'service[docker]', :delayed
